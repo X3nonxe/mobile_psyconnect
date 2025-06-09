@@ -1,0 +1,62 @@
+name: psyconnect
+description: 'A new Flutter project.'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.6.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+  responsive_sizer: ^3.3.1
+  google_fonts: ^6.2.1
+  page_transition: ^2.2.1
+  smooth_page_indicator: ^1.2.0+3
+  intl: ^0.20.1
+  animated_text_kit: ^4.2.2
+  animated_bottom_navigation_bar: ^1.3.3
+  font_awesome_flutter: ^10.8.0
+  socket_io_client: ^3.0.2
+  http: ^1.2.2
+  shared_preferences: ^2.3.4
+  launcher_name: ^1.0.2
+  flutter_bloc: ^9.1.1
+  equatable: ^2.0.7
+  flutter_spinkit: ^5.2.1
+  flutter_speed_dial: ^7.0.0
+  firebase_core: ^3.13.0
+  firebase_auth: ^5.5.3
+  cloud_firestore: ^5.6.7
+  cryptography: ^2.7.0
+  flutter_secure_storage: ^9.2.4
+  convert: ^3.1.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - images/logo-test.png
+    - images/logo-blue.png
+    - images/logo.png
+    - images/logo-green.png
+    - images/google.png
+    - images/apple.png
+    - images/doctor1.png
+    - images/doctor2.png
+    - images/doctor3.png
+    - images/facebook.png
+    - images/article1.png
+    - images/capsules.png
+    - images/capsules2.png
+    - lib/icons/
+
+launcher_name:
+  default: 'Psyconnect'

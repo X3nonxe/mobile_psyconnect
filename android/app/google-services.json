@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "741099713283",
+    "firebase_url": "https://backend-firebase-bb332-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "backend-firebase-bb332",
+    "storage_bucket": "backend-firebase-bb332.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:741099713283:android:55c581c85a08bfcb17af36",
+        "android_client_info": {
+          "package_name": "com.example.psyconnect"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC9L1WkkLiAvIh6YMecJ5P9RxMv8PIu19w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:741099713283:android:4796b62faafb727f17af36",
+        "android_client_info": {
+          "package_name": "psyconnect.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC9L1WkkLiAvIh6YMecJ5P9RxMv8PIu19w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
