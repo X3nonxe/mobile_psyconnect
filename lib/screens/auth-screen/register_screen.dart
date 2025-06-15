@@ -192,7 +192,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
       keyboardType: keyboardType,
       controller: controller,
       isPassword: isPassword,
-      errorText: errorText,
       validator: (value) {
         if (value == null || value.isEmpty) {
           return "Field tidak boleh kosong";
@@ -220,9 +219,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
           text: "Tanggal Lahir",
           icon: "lib/icons/callender.png",
           controller: birthDateController,
-          errorText: birthDateController.text.isEmpty
-              ? "Tanggal lahir harus diisi"
-              : null,
           validator: (value) {
             if (value == null || value.isEmpty) {
               return "Tanggal lahir harus diisi";

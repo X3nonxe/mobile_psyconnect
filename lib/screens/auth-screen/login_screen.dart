@@ -178,6 +178,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       controller: _passwordController,
                       text: 'Masukkan Password',
                       icon: 'lib/icons/lock.png',
+                      isPassword: true,
                       validator: (value) {
                         if (value!.isEmpty) return 'Password wajib diisi';
                         if (!_isPasswordValid(value)) {

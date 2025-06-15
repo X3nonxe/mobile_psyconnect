@@ -16,3 +16,12 @@ class LoginEvent extends AuthEvent {
   @override
   List<Object> get props => [email, password];
 }
+
+class RefreshTokenEvent extends AuthEvent {
+  final String refreshToken;
+
+  const RefreshTokenEvent(this.refreshToken);
+
+  @override
+  List<Object> get props => [refreshToken];
+}

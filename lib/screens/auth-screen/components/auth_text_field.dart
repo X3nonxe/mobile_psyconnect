@@ -1,54 +1,83 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:psyconnect/config/color_pallate.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-class AuthTextField extends StatelessWidget {
+// Ubah AuthTextField menjadi Stateful Widget
+class AuthTextField extends StatefulWidget {
+  final TextEditingController controller;
   final String text;
   final String icon;
-  final TextEditingController controller;
-  final bool isPassword;
-  final TextInputType keyboardType;
-  final String? errorText;
+  final TextInputType? keyboardType;
+  final String? Function(String?)? validator;
+  final bool isPassword; // Tambahkan properti baru
 
   const AuthTextField({
     super.key,
+    required this.controller,
     required this.text,
     required this.icon,
-    required this.controller,
-    this.isPassword = false,
-    this.keyboardType = TextInputType.text,
-    this.errorText, required String? Function(dynamic value) validator,
+    this.keyboardType,
+    this.validator,
+    this.isPassword = false, // Default false
   });
 
   @override
+  State<AuthTextField> createState() => _AuthTextFieldState();
+}
+
+class _AuthTextFieldState extends State<AuthTextField> {
+  bool _obscureText = true;
+
+  @override
   Widget build(BuildContext context) {
-    return Center(
-      child: SizedBox(
-        height: 10.h,
-        width: 90.w,
-        child: TextField(
-          controller: controller,
-          obscureText: isPassword,
-          keyboardType: keyboardType,
-          textAlign: TextAlign.start,
-          decoration: InputDecoration(
-            errorText: errorText,
-            focusColor: Colors.black26,
-            fillColor: const Color.fromARGB(255, 247, 247, 247),
-            filled: true,
-            prefixIcon: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: Image.asset(icon),
-            ),
-            prefixIconColor: const Color.fromARGB(255, 3, 190, 150),
-            label: Text(text),
-            floatingLabelBehavior: FloatingLabelBehavior.never,
-            border: OutlineInputBorder(
-              borderSide: BorderSide.none,
-              borderRadius: BorderRadius.circular(30),
-            ),
+    return TextFormField(
+      controller: widget.controller,
+      keyboardType: widget.keyboardType,
+      obscureText: widget.isPassword ? _obscureText : false,
+      decoration: InputDecoration(
+        contentPadding: EdgeInsets.symmetric(vertical: 2.5.h, horizontal: 4.w),
+        prefixIcon: Padding(
+          padding: EdgeInsets.only(left: 4.w, right: 2.w),
+          child: Image.asset(
+            widget.icon,
+            height: 2.5.h,
+            width: 2.5.h,
           ),
         ),
+        // Tambahkan suffix icon untuk toggle visibility
+        suffixIcon: widget.isPassword
+            ? IconButton(
+                icon: Icon(
+                  _obscureText ? Icons.visibility_off : Icons.visibility,
+                  color: Colors.grey,
+                ),
+                onPressed: () {
+                  setState(() {
+                    _obscureText = !_obscureText;
+                  });
+                },
+              )
+            : null,
+        hintText: widget.text,
+        hintStyle: GoogleFonts.openSans(
+          fontSize: 15.sp,
+          color: Colors.grey,
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(30),
+          borderSide: BorderSide(color: Colors.grey.shade300),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(30),
+          borderSide: BorderSide(color: Colors.grey.shade300),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(30),
+          borderSide: BorderSide(color: bluePrimaryColor),
+        ),
       ),
+      validator: widget.validator,
     );
   }
 }

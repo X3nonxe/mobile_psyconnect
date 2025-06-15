@@ -84,7 +84,6 @@ class ConsultationRepositoryImpl implements ConsultationRepository {
 
     if (response.statusCode == 200) {
       final List<dynamic> data = json.decode(response.body);
-      print('Client consultations: $data');
       return data.map((json) => Consultation.fromJson(json)).toList();
     }
     throw Exception('Failed to load client consultations');
