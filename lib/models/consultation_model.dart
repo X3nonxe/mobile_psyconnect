@@ -31,4 +31,6 @@ class Consultation {
       notes: json['notes'],
     );
   }
+
+  DateTime get localScheduledTime => scheduledTime.toLocal();
 }

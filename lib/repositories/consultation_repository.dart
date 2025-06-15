@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:psyconnect/models/consultation_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:psyconnect/models/psychologist.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class ConsultationRepository {
@@ -13,6 +14,7 @@ abstract class ConsultationRepository {
     required DateTime scheduledTime,
     required int duration,
   });
+  Future<PsychologistModel> getPsychologistById(String psychologistId);
 }
 
 class ConsultationRepositoryImpl implements ConsultationRepository {
@@ -20,7 +22,8 @@ class ConsultationRepositoryImpl implements ConsultationRepository {
   final String baseUrl;
 
   ConsultationRepositoryImpl(
-      {required this.client, this.baseUrl = 'https://psy-backend-production.up.railway.app/api/v1'});
+      {required this.client,
+      this.baseUrl = 'https://psy-backend-production.up.railway.app/api/v1'});
 
   @override
   Future<List<Consultation>> getConsultations(String psychologistId) async {
@@ -49,7 +52,7 @@ class ConsultationRepositoryImpl implements ConsultationRepository {
     final token = prefs.getString('token');
 
     final response = await client.put(
-      Uri.parse('$baseUrl/$consultationId/status'),
+      Uri.parse('$baseUrl/consultations/$consultationId/status'),
       headers: {
         'Authorization': 'Bearer $token',
         'Content-Type': 'application/json'
@@ -57,8 +60,12 @@ class ConsultationRepositoryImpl implements ConsultationRepository {
       body: json.encode({'status': status}),
     );
 
+    print('Consultation Id: $consultationId, Status: $status');
+
     if (response.statusCode != 200) {
-      throw Exception('Failed to update status');
+      // throw Exception('Failed to update status');
+      print('Failed to update status: ${response.body}');
+      throw Exception('Failed to update consultation status: ${response.body}');
     }
   }
 
@@ -81,6 +88,26 @@ class ConsultationRepositoryImpl implements ConsultationRepository {
       return data.map((json) => Consultation.fromJson(json)).toList();
     }
     throw Exception('Failed to load client consultations');
+  }
+
+  @override
+  Future<PsychologistModel> getPsychologistById(String psychologistId) async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token');
+
+    final response = await client.get(
+      Uri.parse('$baseUrl/psychologists/$psychologistId'),
+      headers: {
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json'
+      },
+    );
+
+    if (response.statusCode == 200) {
+      print('Psychologist data: ${response.body}');
+      return PsychologistModel.fromJson(json.decode(response.body));
+    }
+    throw Exception('Failed to load psychologist');
   }
 
   @override

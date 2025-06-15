@@ -1,170 +1,123 @@
-import 'package:psyconnect/config/color_pallate.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
 
-class SecheduleCard extends StatelessWidget {
+class ScheduleCard extends StatelessWidget {
+  final String confirmation;
   final String mainText;
   final String subText;
-  final String image;
   final String date;
   final String time;
-  final String confirmation;
+  final String image;
 
-  const SecheduleCard(
-      {super.key,
-      required this.mainText,
-      required this.subText,
-      required this.date,
-      required this.confirmation,
-      required this.time,
-      required this.image});
+  const ScheduleCard({
+    super.key,
+    required this.confirmation,
+    required this.mainText,
+    required this.subText,
+    required this.date,
+    required this.time,
+    required this.image,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    Color statusColor;
+    switch (confirmation) {
+      case "Terkonfirmasi":
+        statusColor = Colors.green;
+        break;
+      case "Selesai":
+        statusColor = Colors.blue;
+        break;
+      case "Batal":
+        statusColor = Colors.red;
+        break;
+      default:
+        statusColor = Colors.grey;
+    }
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: Container(
-        width: 90.w,
         decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
           color: Colors.white,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: Colors.black12),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.2),
+              spreadRadius: 2,
+              blurRadius: 5,
+              offset: const Offset(0, 3),
+            ),
+          ],
         ),
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          padding: const EdgeInsets.all(15),
+          child: Row(
             children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+              Container(
+                height: 60,
+                width: 60,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  image: DecorationImage(
+                    image: AssetImage(image),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 15),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      mainText,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 5),
+                    Text(
+                      subText,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        color: Color(0xFF757575), // Custom grey color
+                        fontStyle: FontStyle.italic, // Example: italic style
+                        letterSpacing: 0.2, // Example: slight letter spacing
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Row(
                       children: [
                         Text(
-                          mainText,
-                          style: GoogleFonts.montserrat(
-                              fontSize: 16.sp, fontWeight: FontWeight.w600),
+                          "$date • $time",
+                          style: const TextStyle(
+                            fontSize: 14,
+                            color: Colors.black54,
+                          ),
                         ),
-                        Text(
-                          subText,
-                          style: GoogleFonts.openSans(
-                              fontSize: 11.sp,
-                              fontWeight: FontWeight.w600,
-                              color: const Color.fromARGB(255, 99, 99, 99)),
+                        const Spacer(),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 5),
+                          decoration: BoxDecoration(
+                            color: statusColor.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Text(
+                            confirmation,
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: statusColor,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
                       ],
                     ),
-                  ),
-                  SizedBox(width: 16.sp),
-                  Container(
-                    height: 50.sp,
-                    width: 50.sp,
-                    decoration: BoxDecoration(
-                        color: Colors.blue,
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                            image: AssetImage(image),
-                            filterQuality: FilterQuality.high,
-                            fit: BoxFit.cover)),
-                  ),
-                ],
-              ),
-              SizedBox(height: 12.sp),
-              Row(
-                children: [
-                  Image.asset(
-                    "lib/icons/callender2.png",
-                    height: 14.sp,
-                    width: 14.sp,
-                    filterQuality: FilterQuality.high,
-                  ),
-                  SizedBox(width: 4.sp),
-                  Text(
-                    date,
-                    style: GoogleFonts.openSans(
-                        fontSize: 11.sp,
-                        fontWeight: FontWeight.w600,
-                        color: const Color.fromARGB(255, 99, 99, 99)),
-                  ),
-                  SizedBox(width: 10.sp),
-                  Image.asset(
-                    "lib/icons/watch.png",
-                    height: 14.sp,
-                    width: 14.sp,
-                    filterQuality: FilterQuality.high,
-                  ),
-                  SizedBox(width: 4.sp),
-                  Text(
-                    time,
-                    style: GoogleFonts.openSans(
-                        fontSize: 11.sp,
-                        fontWeight: FontWeight.w600,
-                        color: const Color.fromARGB(255, 99, 99, 99)),
-                  ),
-                  SizedBox(width: 10.sp),
-                  Image.asset(
-                    "lib/icons/elips.png",
-                    height: 14.sp,
-                    width: 14.sp,
-                    filterQuality: FilterQuality.high,
-                  ),
-                  SizedBox(width: 4.sp),
-                  Text(
-                    confirmation,
-                    style: GoogleFonts.openSans(
-                        fontSize: 11.sp,
-                        fontWeight: FontWeight.w600,
-                        color: const Color.fromARGB(255, 99, 99, 99)),
-                  ),
-                ],
-              ),
-              SizedBox(height: 16.sp),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: TextButton(
-                      onPressed: () {},
-                      style: TextButton.styleFrom(
-                        backgroundColor:
-                            const Color.fromARGB(255, 232, 233, 233),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        padding: EdgeInsets.symmetric(vertical: 12.sp),
-                      ),
-                      child: Text(
-                        "Batalkan",
-                        style: GoogleFonts.openSans(
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w600,
-                            color: const Color.fromARGB(255, 61, 61, 61)),
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 10.sp),
-                  Expanded(
-                    child: TextButton(
-                      onPressed: () {},
-                      style: TextButton.styleFrom(
-                        backgroundColor: bluePrimaryColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        padding: EdgeInsets.symmetric(vertical: 12.sp),
-                      ),
-                      child: Text(
-                        "Jadwalkan Ulang",
-                        style: GoogleFonts.openSans(
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white),
-                      ),
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),

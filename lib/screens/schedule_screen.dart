@@ -1,6 +1,5 @@
 import 'package:psyconnect/config/color_pallate.dart';
-import 'package:psyconnect/screens/schedule-screen/first_schedule_tab.dart';
-import 'package:psyconnect/screens/schedule-screen/second_schedule_tab.dart';
+import 'package:psyconnect/screens/schedule-screen/schedule_tab.dart'; // Import baru
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -68,7 +67,6 @@ class _TabBarExampleState extends State<SheduleScreen>
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Container(
-                        // height: 50,
                         width: MediaQuery.of(context).size.height,
                         decoration: BoxDecoration(
                           border: Border.all(
@@ -111,13 +109,18 @@ class _TabBarExampleState extends State<SheduleScreen>
                       ),
                     ),
                     Expanded(
-                        child: TabBarView(
-                            controller: tabController,
-                            children: const [
-                          FirstScheduleTab(),
-                          SecondScheduleTab(),
-                          SecondScheduleTab(),
-                        ]))
+                      child: TabBarView(
+                        controller: tabController,
+                        children: [
+                          // Tab Akan Datang (confirmed)
+                          ScheduleTab(status: "confirmed"),
+                          // Tab Selesai (completed)
+                          ScheduleTab(status: "completed"),
+                          // Tab Batal (cancelled)
+                          ScheduleTab(status: "cancelled"),
+                        ],
+                      ),
+                    )
                   ],
                 ),
               ),

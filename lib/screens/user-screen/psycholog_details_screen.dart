@@ -174,42 +174,41 @@ class _PsychologDetailsState extends State<PsychologDetails> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: _buildAppBar(context),
-      body: Stack(
-        alignment: Alignment.bottomCenter,
+      body: Column(
         children: [
-          _buildContent(),
+          // Scrollable content area
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  const SizedBox(height: 10),
+                  PsychologList(
+                    harga: "Rp.${psychologist!.consultationFee}",
+                    image: "lib/icons/male-doctor.png",
+                    namaPsikolog: psychologist!.fullName,
+                    spesialisasi: psychologist!.specializations.join(', '),
+                    psychologId: psychologist!.id,
+                  ),
+                  const SizedBox(height: 20),
+                  _buildProfessionalInfo(),
+                  const SizedBox(height: 15),
+                  _buildDescriptionSection(),
+                  const SizedBox(height: 20),
+                  _buildDateSelection(),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    child: Divider(color: Colors.black12, thickness: 1),
+                  ),
+                  const SizedBox(height: 20),
+                  _buildTimeSelection(),
+                  // Add bottom padding to prevent content overlap
+                  const SizedBox(height: 80),
+                ],
+              ),
+            ),
+          ),
+          // Fixed button at bottom
           _buildBottomButton(context),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildContent() {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          const SizedBox(height: 10),
-          PsychologList(
-            harga: "Rp.${psychologist!.consultationFee}",
-            image: "lib/icons/male-doctor.png",
-            namaPsikolog: psychologist!.fullName,
-            spesialisasi: psychologist!.specializations.join(', '),
-            psychologId: psychologist!.id,
-          ),
-          const SizedBox(height: 20),
-          // Informasi Profesional
-          _buildProfessionalInfo(),
-          const SizedBox(height: 15),
-          _buildDescriptionSection(),
-          const SizedBox(height: 20),
-          _buildDateSelection(),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: Divider(color: Colors.black12, thickness: 1),
-          ),
-          const SizedBox(height: 20),
-          _buildTimeSelection(),
-          const SizedBox(height: 0),
         ],
       ),
     );
@@ -231,7 +230,7 @@ class _PsychologDetailsState extends State<PsychologDetails> {
             icon: Icons.school_outlined,
             label: "Pendidikan",
             value: psychologist?.education
-                    .map((e) => "${e.degree ?? ''} - ${e.university ?? ''}")
+                    .map((e) => "${e.degree} - ${e.university}")
                     .join("\n") ??
                 '-',
           ),
@@ -379,8 +378,9 @@ class _PsychologDetailsState extends State<PsychologDetails> {
   }
 
   Widget _buildBottomButton(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(20),
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      color: Colors.white,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: bluePrimaryColor,
@@ -392,7 +392,25 @@ class _PsychologDetailsState extends State<PsychologDetails> {
         onPressed: () {
           if (selectedDay == null || selectedTime == null) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Pilih hari dan waktu terlebih dahulu')),
+              SnackBar(
+                content: Center(
+                  child: Text(
+                    'Pilih hari dan waktu terlebih dahulu',
+                    style: GoogleFonts.poppins(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                backgroundColor: bluePrimaryColor,
+                behavior: SnackBarBehavior.floating,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                margin: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                duration: Duration(seconds: 2),
+              ),
             );
             return;
           }
